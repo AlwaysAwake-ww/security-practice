@@ -98,3 +98,16 @@ id가 1인 하나의 상품
 
 사용자 로그인
 - Post/auth/login
+
+
+==============================================================
+
+
+**Spring Security**
+
+
+1. 사용자는 HTTP Request로 id(username)과 password를 가진 상태로 접근
+2. Authentication Filter는 사용자로부터 받은 id(username)과 password를 이용하여 UsernamePasswordAuthenticationToken을 생성
+3. 생성된 Token을 AuthenticationManager로 전달, AuthenticationManager는 전달된 Token에 저장된 Username을 4, 5, 6번 과정을 거쳐 DB에 존재하는지 확인
+4. DB에 User 존재 여부를 확인 가능한 AuthenticationManager는 username에 해당하는 user가 있다면 UsernamePasswordAuthenticationToken에서 password를 DB에 저장된 형태와 같은 해쉬함수를 활용하여 암호화 시킨 이후 DB의 user객체의 password와 비교
+5. 모든 비교 성공 시 AuthenticationManager는 Authentication이라는 객체 생성, SecurityContextHolder 내부의 SecurityContext에 저장하여 세션값 유지
