@@ -71,8 +71,8 @@ public class SecurityConfig {
                     // mvcMatchers() : HTTP Method를 파라미터로 넘겨주면 해당 메소드와 요청 URI 매핑, 아니라면 URI는 HTTP Method 신경 X
                     // requestMatchers() : 명확하게 요청 대상을 지정하는 경우
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    // "/signup", "/login", "/users/refresh" URI 요청은 모두 허용
-                    .mvcMatchers("/signup", "/login", "/users/refresh").permitAll()
+                    // 아래 기술된 URI 요청은 모두 허용
+                    .mvcMatchers("/members/signup", "/members/login", "/members/refresh").permitAll()
                     // hasAnyRole : 사용자가 주어진 권한이 있다면 허용
                     .mvcMatchers(HttpMethod.GET, "/**").hasAnyRole("USER", "MANAGER", "ADMIN")
                     .mvcMatchers(HttpMethod.POST, "/**").hasAnyRole("USER", "MANAGER", "ADMIN")
