@@ -5,10 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.fakeapitest.controller.MemberController;
 import com.test.fakeapitest.domain.Member;
-import com.test.fakeapitest.dto.MemberLoginDto;
-import com.test.fakeapitest.dto.MemberLoginResponseDto;
-import com.test.fakeapitest.dto.MemberSignupDto;
-import com.test.fakeapitest.dto.MemberSignupResponseDto;
+import com.test.fakeapitest.domain.RefreshToken;
+import com.test.fakeapitest.dto.*;
+import com.test.fakeapitest.repository.RefreshTokenRepository;
 import com.test.fakeapitest.service.MemberService;
 import com.test.fakeapitest.service.RefreshTokenService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +33,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.web.servlet.function.RequestPredicates.*;
 
@@ -52,13 +50,16 @@ public class MemberTest {
     PasswordEncoder passwordEncoder;
     @Autowired
     MemberService memberService;
-
+    @Autowired
+    RefreshTokenService refreshTokenService;
+    @Autowired
+    RefreshTokenRepository refreshTokenRepository;
     // 테스트용 mvc 환경
     @Autowired
     MockMvc mockMvc;
-
     @Autowired
     ObjectMapper objectMapper;
+
 
     // 회원가입 테스트 (정상 동작)
     @Test
@@ -105,5 +106,58 @@ public class MemberTest {
     // Object to String
     private <T> String toJson(T data) throws JsonProcessingException {
         return objectMapper.writeValueAsString(data);
+    }
+
+
+    // logout 테스트
+    @Test
+    public void logoutTest() throws Exception{
+
+
+        Long memberId = 9L;
+
+        RefreshTokenDto refreshTokenDto = new RefreshTokenDto();
+        refreshTokenDto.setRefreshToken(refreshTokenRepository.findByMemberId(memberId).get().getValue());
+
+        mockMvc
+                .perform(delete("/members/logout")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(refreshTokenDto))
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+    }
+
+    @Test
+    public void accessTokenRefreshTest() throws Exception{
+
+        String memberEmail = "test@gmail.com";
+        String memberPassword = "*test1234";
+
+        MemberLoginDto memberLoginDto = new MemberLoginDto(memberEmail, memberPassword);
+
+        Long memberId = memberService.findByEmail(memberEmail).getMemberId();
+
+        mockMvc
+                .perform(post("/members/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(memberLoginDto))
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+
+        RefreshTokenDto refreshTokenDto = new RefreshTokenDto();
+        refreshTokenDto.setRefreshToken(refreshTokenRepository.findByMemberId(memberId).get().getValue());
+
+        mockMvc
+                .perform(post("/members/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(refreshTokenDto))
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
     }
 }

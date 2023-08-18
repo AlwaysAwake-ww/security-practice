@@ -132,7 +132,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
 
-    // request에서 token 가져오는 메서드
+    // 사용자 request 에서 token 가져오는 메서드
     private String getToken(HttpServletRequest request){
 
         // authorization 문자열에 request의 getHeader 메서드를 사요해서  Authorization 정보 가져와 저장

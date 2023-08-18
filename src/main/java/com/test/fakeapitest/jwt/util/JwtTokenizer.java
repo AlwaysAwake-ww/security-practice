@@ -110,6 +110,9 @@ public class JwtTokenizer {
     // token 문자열과 secretKey 코드를 받아서 jwt 검증
     public Claims parseToken(String token, byte[] secretKey){
 
+
+        // jws :: json web signature  서버에서 인증을 근거로 인증정보를 서버의 private key로 서명 한것을 토큰화 한것
+        // Jwts parserBuilder :: jws 검증을 위해 사용
         return Jwts
                 // parserBuilder : 검증을 위한 jwtParserBuilder 인스턴스 생성
                 .parserBuilder()
@@ -117,9 +120,12 @@ public class JwtTokenizer {
                 .setSigningKey(getSigningKey(secretKey))
                 // 생성
                 .build()
-                // parseClaimsJws : 오리지널 signed Jwt 반환
+                // parseClaimsJws : 오리지널 signed Jwt 반환, 토큰을 Jws 로 파싱
                 .parseClaimsJws(token)
+                // 앞서 토큰에 저장한 데이터가 담긴 claim 반환
                 .getBody();
+
+
     }
 
     // ????

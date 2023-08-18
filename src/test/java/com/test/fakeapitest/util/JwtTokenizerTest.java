@@ -47,8 +47,6 @@ public class JwtTokenizerTest {
         claims.put("userId", id);
 
         byte[] accessSecret = this.accessSecret.getBytes(StandardCharsets.UTF_8);
-        System.out.println(":: this.accessSecret :: "+this.accessSecret);
-        System.out.println(":: accessSecret :: "+accessSecret);
 
 
         // builder 패턴
@@ -62,7 +60,6 @@ public class JwtTokenizerTest {
                 // JwtToken 리턴
                 .compact();
 
-        System.out.println("::: Token Test ::: "+JwtToken);
     }
 
 
@@ -83,13 +80,6 @@ public class JwtTokenizerTest {
                 .build()
                 .parseClaimsJws(jwtToken)
                 .getBody();
-
-        System.out.println(":: claims.getSubject :: "+claims.getSubject());
-        System.out.println(":: claims.get(roles) :: "+claims.get("roles"));
-        System.out.println(":: claims.get(userId) :: "+claims.get("userId"));
-        System.out.println(":: claims.getIssuedAt() :: "+claims.getIssuedAt());
-        System.out.println(":: claims.getExpiration() :: "+claims.getExpiration());
-
 
     }
 }

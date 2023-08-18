@@ -25,11 +25,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
 
-
-        request.getHeaderNames().asIterator().forEachRemaining(headerName -> System.out.println(":: header name :: "+headerName+" :: "+request.getHeader(headerName)));
-        System.out.println();
-
-        request.getParameterNames().asIterator().forEachRemaining(paramName -> System.out.println(":: param name :: "+paramName +" :: "+request.getParameter(paramName)));
+            // 요청 헤더와 파라메터 내용 탐색
+//        request.getHeaderNames().asIterator().forEachRemaining(headerName -> System.out.println(":: header name :: "+headerName+" :: "+request.getHeader(headerName)));
+//        request.getParameterNames().asIterator().forEachRemaining(paramName -> System.out.println(":: param name :: "+paramName +" :: "+request.getParameter(paramName)));
 
         String exception = (String) request.getAttribute("exception");
 
