@@ -5,7 +5,6 @@ import com.test.fakeapitest.jwt.exception.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +14,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import static org.springframework.http.HttpMethod.*;
 
 import java.util.List;
 
@@ -74,10 +74,10 @@ public class SecurityConfig {
                     // 아래 기술된 URI 요청은 모두 허용
                     .mvcMatchers("/members/signup", "/members/login", "/members/refresh", "/members/logout").permitAll()
                     // hasAnyRole : 사용자가 주어진 권한이 있다면 허용
-                    .mvcMatchers(HttpMethod.GET, "/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-                    .mvcMatchers(HttpMethod.POST, "/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+                    .mvcMatchers(GET, "/**").hasAnyRole("USER", "ADMIN")
+                    .mvcMatchers(POST, "/**").hasAnyRole("USER", "ADMIN")
                     // 아무 권한이나 가지고 있으면 모든 리소스 접근 허용 (?)
-                    .anyRequest().hasAnyRole()
+                    .anyRequest().hasAnyRole("USER", "ADMIN")
                     .and()
                     // 인증, 인가에서 Exception 발생 시 후처리
                     .exceptionHandling()

@@ -1,9 +1,13 @@
 package com.test.fakeapitest.config;
 
 
+import com.test.fakeapitest.jwt.util.IfLoginArgumentResolver;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -20,5 +24,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000")
                 .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTION")
                 .allowCredentials(true);
+    }
+
+    // 커스텀 argumentResolver 사용하기 위한 메서드 오버라이딩 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new IfLoginArgumentResolver());
     }
 }
