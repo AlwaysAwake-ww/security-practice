@@ -72,7 +72,7 @@ public class SecurityConfig {
                     // requestMatchers() : 명확하게 요청 대상을 지정하는 경우
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     // 아래 기술된 URI 요청은 모두 허용
-                    .mvcMatchers("/members/signup", "/members/login", "/members/refresh", "/members/logout").permitAll()
+                    .mvcMatchers("/members/signup", "/members/login", "/members/refresh").permitAll()
                     // hasAnyRole : 사용자가 주어진 권한이 있다면 허용
                     .mvcMatchers(GET, "/**").hasAnyRole("USER", "ADMIN")
                     .mvcMatchers(POST, "/**").hasAnyRole("USER", "ADMIN")
@@ -83,8 +83,6 @@ public class SecurityConfig {
                     .exceptionHandling()
                     // 인증 예외 발생 시 사용할 커스텀 클래스 설정
                     .authenticationEntryPoint(customAuthenticationEntryPoint);
-
-
         return http.build();
     }
 

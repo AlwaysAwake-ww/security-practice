@@ -21,6 +21,7 @@ export default function Home() {
       if (response.ok) {
         localStorage.removeItem("loginData");
       } else {
+        console.log("error");
         console.error(response.statusText);
       }
     } catch (error) {

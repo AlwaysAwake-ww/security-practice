@@ -17,19 +17,21 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 
 
+    // 인증 완료된 객체
     public JwtAuthenticationToken(Collection<? extends GrantedAuthority> authorities, Object principal, Object credential) {
         super(authorities);
         this.credential = credential;
         this.principal = principal;
-        this.setAuthenticated(true);
+        super.setAuthenticated(true);
 
     }
 
+    // 인증 전의 객체
     public JwtAuthenticationToken(String token){
         super(null);
 
         this.token = token;
-        this.setAuthenticated(false);
+        super.setAuthenticated(false);
     }
 
 

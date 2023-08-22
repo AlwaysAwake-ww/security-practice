@@ -6,6 +6,7 @@ import com.test.fakeapitest.jwt.util.IfLogin;
 import com.test.fakeapitest.jwt.util.LoginUserDto;
 import com.test.fakeapitest.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class CartApiController {
     public Cart addCarts(@IfLogin LoginUserDto loginUserDto){
 
         // @IfLogin >> 수동 어노테이션 설정하고, 권한 정보 가져오기
-        
+
         LocalDate localDate = LocalDate.now();
 
         localDate.getYear();

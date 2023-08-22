@@ -27,8 +27,8 @@ public class RefreshTokenService {
         // ifPresent :: Optional 객체가 값을 가지고 있으면 실행, 없으면 스킵
         // refreshTokenRepository :: delete
         // (token)->refreshTokenRepository.delete(token)
-//        refreshTokenRepository.findByValue(refreshToken).ifPresent(refreshTokenRepository::delete);
-        refreshTokenRepository.findByValue(refreshToken).ifPresent(token->refreshTokenRepository.delete(token));
+        refreshTokenRepository.findByValue(refreshToken).ifPresent(refreshTokenRepository::delete);
+//        refreshTokenRepository.findByValue(refreshToken).ifPresent(token->refreshTokenRepository.delete(token));
     }
 
     @Transactional

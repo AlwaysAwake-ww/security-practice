@@ -11,6 +11,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -32,10 +33,11 @@ public class IfLoginArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
+
         Authentication authentication = null;
 
         try{
-            
+
             // SercurityContextHolder 에서 authentication 정보 불러와 authentication 변수로 저장
             authentication = SecurityContextHolder.getContext().getAuthentication();
         }
@@ -54,9 +56,9 @@ public class IfLoginArgumentResolver implements HandlerMethodArgumentResolver {
         LoginUserDto loginUserDto = new LoginUserDto();
 
         // Object 타입 principal 객체 불러오기
-        Object principal = authentication.getPrincipal();
-
-        // principal 이 null 이면 null 값 반환
+        Object principal = jwtAuthenticationToken.getPrincipal();
+//        Principal principal = jwtAuthenticationToken.getPrincipal();
+        // principal 이 null 이면 null 값 반환\
         if(principal == null)
             return null;
 

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -101,6 +102,9 @@ public class MemberController {
 
         // refresh token 을 삭제
         refreshTokenService.deleteRefreshToken(refreshTokenDto.getRefreshToken());
+
+
+
 
         // token repository 에서 refresh token 에 해당하는 값을 삭제
         return new ResponseEntity(HttpStatus.OK);

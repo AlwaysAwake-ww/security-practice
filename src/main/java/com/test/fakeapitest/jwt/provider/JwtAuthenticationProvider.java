@@ -3,6 +3,7 @@ package com.test.fakeapitest.jwt.provider;
 
 import com.test.fakeapitest.jwt.token.JwtAuthenticationToken;
 import com.test.fakeapitest.jwt.util.JwtTokenizer;
+import com.test.fakeapitest.jwt.util.LoginInfoDto;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -46,16 +47,24 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         // registered claims : 상호 정보교환 가능하고 유용한 claim 을 제공하기 위해 필수적이진 않지만 권장되는 미리 정의된 claim
         // ex : iss(issuer), exp(expiration time), sub(subject), aud(audience) 등
         // public claims : jwt 사용자가 자유롭게 정의 가능한 claim, 충돌 방지 필요
-        // private claims : public, registered가 아닌 claim, private를 사용하기 위해 협의된 당사자끼리 정보 교환하기 위한 사용자 정의 claim
+        // private claims : public, registered 가 아닌 claim, private 를 사용하기 위해 협의된 당사자끼리 정보 교환하기 위한 사용자 정의 claim
         Claims claims = jwtTokenizer.parseAccessToken(authenticationToken.getToken());
 
         // sub에 암호화 된 데이터를 집어넣고 복호화 하는 코드 삽입 가능
         // claim.getSubject() 를 통해 sub를 가져와서 email 문자열에 저장
         String email = claims.getSubject();
+        String name = claims.get("name", String.class);
+        Long memberId = claims.get("id", Long.class);
+
         List<GrantedAuthority> authorities = getGrantedAuthorities(claims);
 
+        LoginInfoDto loginInfoDto = new LoginInfoDto();
+        loginInfoDto.setName(name);
+        loginInfoDto.setEmail(email);
+        loginInfoDto.setMemberId(memberId);
+
         // JwtAuthenticationToken 에 인증된 authorities 와 email,  ~ 를 담아 생성 후 반환
-        return new JwtAuthenticationToken(authorities, email, null);
+        return new JwtAuthenticationToken(authorities, loginInfoDto, null);
     }
 
 

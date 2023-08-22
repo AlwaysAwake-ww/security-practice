@@ -3,14 +3,12 @@ package com.test.fakeapitest.jwt.filter;
 
 import com.test.fakeapitest.jwt.exception.JwtExceptionCode;
 import com.test.fakeapitest.jwt.token.JwtAuthenticationToken;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Security;
+import java.util.Base64;
 
 
 @Slf4j
@@ -51,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try{
 
-            // request에서 토큰 문자열만 뽑아 저장
+            // request 에서 토큰 문자열만 뽑아 저장
             token = getToken(request);
 
             // token 에 문자열이 저장 되어 있다면
@@ -106,7 +105,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         catch (Exception e) {
             log.error("====================================================");
-            log.error("JwtFilter - doFilterInternal() 오류 발생");
+            log.error("JwtFilter - doFilterInternal() error catch");
             log.error("token : {}", token);
             log.error("Exception Message : {}", e.getMessage());
             log.error("Exception StackTrace : {");
@@ -124,10 +123,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(token);
 
         // authenticationManager.authenticate 메서드에 JwtAuthenticationToken 객체로 인증 수행
-        authenticationManager.authenticate(authenticationToken);
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
 
         // SecurityContextHolder 의 Authentication 값 설정
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
     }
 
 
@@ -135,7 +134,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 사용자 request 에서 token 가져오는 메서드
     private String getToken(HttpServletRequest request){
 
-        // authorization 문자열에 request의 getHeader 메서드를 사요해서  Authorization 정보 가져와 저장
+        // authorization 문자열에 request의 getHeader 메서드를 사용해서  Authorization 정보 가져와 저장
         String authorization = request.getHeader("Authorization");
 
         // StringUtils.hasText(내용) : 내용이 있을 경우 true, null 일 경우 false 반환

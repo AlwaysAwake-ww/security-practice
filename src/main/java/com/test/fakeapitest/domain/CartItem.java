@@ -21,7 +21,7 @@ public class CartItem {
 
 
 
-    private String productId;
+    private Long productId;
     private String productTitle;
     private Double productPrice;
     private String productDescription;

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 @Slf4j
@@ -25,10 +26,14 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
 
-            // 요청 헤더와 파라메터 내용 탐색
+        // 요청 헤더와 파라메터 내용 탐색
 //        request.getHeaderNames().asIterator().forEachRemaining(headerName -> System.out.println(":: header name :: "+headerName+" :: "+request.getHeader(headerName)));
 //        request.getParameterNames().asIterator().forEachRemaining(paramName -> System.out.println(":: param name :: "+paramName +" :: "+request.getParameter(paramName)));
 
+        Enumeration e = request.getParameterNames();
+        while(e.hasMoreElements()){
+            String name = (String)e.nextElement();
+        }
         String exception = (String) request.getAttribute("exception");
 
         log.error("Commence Get Exception : {}",exception);
