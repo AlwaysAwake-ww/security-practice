@@ -35,7 +35,7 @@ public class AuthenticationManagerConfig extends AbstractHttpConfigurer<Authenti
 
 
         // addFilterBefore : 지정된 필터 앞에 커스텀 필터 추가
-        // 매치 확인하기 전에 jwt 프로바이더 통해서 jwt에 대한 처리
+        // 매치 확인하기 전에 jwt provider 통해서 jwt에 대한 처리
         // UsernamePasswordAuthenticationFilter 보다 JwtAuthenticationProvider 를 먼저 실행시킨다는 의미
         // authenticationProvider : 인증 성공, 실패, 결정할 수 없음 등을 나타냄
         builder
