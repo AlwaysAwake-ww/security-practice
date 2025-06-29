@@ -1,6 +1,6 @@
 # 📌 Spring Security + JWT 인증 연습 프로젝트
 
-> Spring Security와 JWT토큰을 사용한 인증 과정 구현"
+> Spring Security와 JWT토큰을 사용한 인증 과정 구현 연습 프로젝트
 
 ---
 
