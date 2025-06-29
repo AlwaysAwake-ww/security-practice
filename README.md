@@ -1,15 +1,6 @@
 # 📌 Spring Security + JWT 인증 연습 프로젝트
 
-
----
-
-## 🚀 프로젝트 소개
-
-- ✅ 주요 목적: Spring Security와 JWT토큰을 사용한 
-
----
-
-# 🔐 Spring Security + JWT 인증 과정
+"✅ 주요 목적: Spring Security와 JWT토큰을 사용한 인증 과정 구현"
 
 ---
 
