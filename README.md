@@ -69,27 +69,6 @@ Spring Security 환경에서 JWT 기반 인증 처리를 적용한 구조입니�
 
 ![security drawio](https://github.com/AlwaysAwake-ww/shoppingmallapi/assets/32862865/debc1b5d-8b7c-42e6-9e05-6ffca9c3e26e)
 
-또는
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant JwtFilter
-    participant AuthManager
-    participant JwtProvider
-    participant SecurityContext
-
-    Client->>JwtFilter: Request with JWT
-    JwtFilter->>AuthManager: JwtAuthenticationToken
-    AuthManager->>JwtProvider: authenticate()
-    JwtProvider-->>AuthManager: 인증된 JwtAuthenticationToken
-    AuthManager-->>JwtFilter: 인증 성공
-    JwtFilter->>SecurityContext: setAuthentication()
-
-
-
-
-
 
 <!--
 Spring Security, Jwt 인증 과정
