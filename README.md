@@ -1,46 +1,46 @@
-# 📌 Spring Security + JWT 인증 연습 프로젝트
+# Spring Security + JWT 인증 연습 프로젝트
 
 > Spring Security와 JWT토큰을 사용한 인증 과정 구현 연습 프로젝트
 
 ---
 
-## ✅ 인증 플로우 요약
+## 인증 플로우 요약
 
 Spring Security 환경에서 JWT 기반 인증 처리를 적용한 구조입니다.  
 `UsernamePasswordAuthenticationFilter` 전에 **사용자 정의 `JwtAuthenticationFilter`**를 등록하여 토큰 인증을 수행합니다.
 
 ---
 
-## ⚙️ 인증 흐름
+##  인증 흐름
 
-1. 📤 **Request 요청**
+1.  **Request 요청**
    - 클라이언트가 Authorization 헤더에 JWT 토큰 포함하여 요청
    - 요청은 `UsernamePasswordAuthenticationFilter` **이전에** `JwtAuthenticationFilter`에서 가로채어 처리됨
 
-2. 🛡️ **JwtAuthenticationFilter**
+2.  **JwtAuthenticationFilter**
    - 요청에서 JWT 토큰 추출
    - 추출한 토큰을 바탕으로 **인증 전 객체**인 `JwtAuthenticationToken` 생성
    - 이 객체를 `AuthenticationManager`로 전달
 
-3. 🧠 **AuthenticationManager**
+3.  **AuthenticationManager**
    - 전달받은 `JwtAuthenticationToken`을 처리 가능한 Provider 탐색
    - 이 경우 `JwtAuthenticationProvider` 선택
 
-4. 🔍 **JwtAuthenticationProvider**
+4.  **JwtAuthenticationProvider**
    - `JwtAuthenticationToken` 내부 토큰 값 파싱
    - Claim에서 `email`, `memberId`, `role`, `name` 등을 추출하여 `LoginInfoDto` 생성
    - 인증 완료 상태의 `JwtAuthenticationToken` 반환 (authorities 포함)
 
-5. 🗝️ **SecurityContext 등록**
+5.  **SecurityContext 등록**
    - `JwtAuthenticationFilter`는 인증된 `JwtAuthenticationToken`을 받아
    - `SecurityContextHolder.getContext().setAuthentication(...)`에 저장
 
-6. ✅ **인증 완료**
+6.  **인증 완료**
    - 이후 컨트롤러에서 `@AuthenticationPrincipal` 또는 `SecurityContextHolder`를 통해 사용자 정보 접근 가능
 
 ---
 
-## 🔁 인증 객체 분류
+##  인증 객체 분류
 
 | 객체 | 설명 |
 |------|------|
@@ -49,7 +49,7 @@ Spring Security 환경에서 JWT 기반 인증 처리를 적용한 구조입니�
 
 ---
 
-## 🧩 관련 구성 요소
+##  관련 구성 요소
 
 - `JwtAuthenticationFilter`  
   → 인증 필터 (Spring Filter Chain 상에서 UsernamePasswordAuthenticationFilter 앞에 위치)
